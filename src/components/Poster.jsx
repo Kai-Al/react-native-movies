@@ -1,6 +1,7 @@
 import { posterStyles } from "../styles";
 import { useState, useEffect } from "react";
 import { Text, View, Image } from "react-native";
+import Information from "./Information";
 
 const Poster = ({ movies }) => {
   const [index, setIndex] = useState(0);
@@ -17,7 +18,7 @@ const Poster = ({ movies }) => {
         setActiveMovie(movies[nextIndex]);
         return nextIndex;
       });
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, [movies]);
@@ -27,13 +28,17 @@ const Poster = ({ movies }) => {
   return (
     <View style={posterStyles.container}>
       {activeMovie ? (
-        <Image
-          source={{ uri: activeMovie.Poster }}
-          style={{ width: 200, height: 300 }}
-        />
+        <>
+          <Text style={posterStyles.text}>{activeMovie.Title}</Text>
+          <Image
+            source={{ uri: activeMovie.Poster }}
+            style={{ width: 200, height: 300 }}
+          />
+          <Information activeMovie={activeMovie} />
+        </>
       ) : (
         <Text style={posterStyles.text}>
-          {activeMovie ? activeMovie : "Sin datos de película"}
+          {activeMovie || "Sin datos de película"}
         </Text>
       )}
     </View>
